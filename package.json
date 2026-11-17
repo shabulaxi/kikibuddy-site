@@ -1,0 +1,22 @@
+{
+  "name": "kikibuddy-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "KikiBuddy bilingual pet-care website with viewport-aware silent video.",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "node scripts/preview.mjs",
+    "dev:kiki": "node scripts/preview.mjs",
+    "build": "node scripts/build.mjs",
+    "preview": "node scripts/preview.mjs --dist",
+    "test": "node --test --test-concurrency=1 tests/server.test.mjs tests/site.test.mjs",
+    "test:deploy": "npm test"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.65.1"
+  }
+}

@@ -1,0 +1,17 @@
+node_modules/
+dist/
+.build-staging/
+.netlify/
+test-results/
+playwright-report/
+.env
+.env.*
+!.env.example
+*.log
+*.zip
+*.pem
+*.key
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

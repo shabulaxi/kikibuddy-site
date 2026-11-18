@@ -118,6 +118,32 @@ const eventually = async (fn, message) => {
   assert.fail(message);
 };
 
+test('all five care videos expose controls that pause and resume on desktop and mobile', async () => {
+  for (const viewport of [{ width: 1440, height: 900 }, { width: 390, height: 844 }]) {
+    const { context, page } = await open({ viewport, isMobile: viewport.width === 390, hasTouch: viewport.width === 390 });
+    try {
+      const features = page.locator('#featured-list .feature');
+      assert.equal(await features.count(), 5);
+      for (let i = 0; i < 5; i++) {
+        const media = features.nth(i).locator('.feature-image');
+        const video = media.locator('video');
+        const button = media.locator('[data-video-button]');
+        await media.scrollIntoViewIfNeeded();
+        assert.equal(await button.isVisible(), true, `Care video ${i + 1} needs a visible control at ${viewport.width}px`);
+        await eventually(() => video.evaluate(v => v.readyState >= 2 && !v.paused), `Care video ${i + 1} must load and play`);
+        await button.click();
+        await eventually(() => video.evaluate(v => v.paused), `Care video ${i + 1} must pause`);
+        await button.click();
+        const before = await video.evaluate(v => v.currentTime);
+        await eventually(() => video.evaluate((v, before) => !v.paused && v.currentTime > before, before), `Care video ${i + 1} must resume`);
+        assert.equal(await video.evaluate(v => v.error), null);
+        const poster = await video.evaluate(v => v.poster);
+        assert.equal((await page.request.get(poster)).status(), 200);
+      }
+    } finally { await context.close(); }
+  }
+});
+
 test('local preview streams MP4 ranges for seeking, including HEAD and invalid ranges', async () => {
   const media = new URL('video/loops/product-01-paw-balm-loop.mp4', url);
   const response = await fetch(media, { headers: { Range: 'bytes=0-1023' } });

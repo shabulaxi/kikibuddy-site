@@ -45,8 +45,7 @@ function createKikiMedia() {
     return Math.hypot(box.left + box.width / 2 - innerWidth / 2, box.top + box.height / 2 - innerHeight / 2);
   };
   const loadPoster = state => {
-    if (state.video.poster) return;
-    state.video.poster = state.video.dataset.poster;
+    if (!state.video.poster) state.video.poster = state.video.dataset.poster;
     state.wrapper.style.backgroundImage = `url("${state.video.poster}")`;
   };
   const load = state => {

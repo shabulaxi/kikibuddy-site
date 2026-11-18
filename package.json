@@ -13,7 +13,7 @@
     "dev:kiki": "node scripts/preview.mjs",
     "build": "node scripts/build.mjs",
     "preview": "node scripts/preview.mjs --dist",
-    "test": "node --test --test-concurrency=1 tests/server.test.mjs tests/site.test.mjs",
+    "test": "node --test --test-concurrency=1 tests/server.test.mjs tests/site.test.mjs tests/store.test.mjs",
     "test:deploy": "npm test"
   },
   "devDependencies": {

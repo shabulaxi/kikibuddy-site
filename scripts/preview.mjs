@@ -3,6 +3,7 @@ import { createReadStream } from 'node:fs';
 import { stat, realpath } from 'node:fs/promises';
 import { resolve, sep, extname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { pages, renderPage } from './pages.mjs';
 
 const project = resolve(fileURLToPath(new URL('../', import.meta.url)));
 const types = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.json': 'application/json; charset=utf-8', '.txt': 'text/plain; charset=utf-8', '.webp': 'image/webp', '.jpg': 'image/jpeg', '.png': 'image/png', '.svg': 'image/svg+xml', '.woff2': 'font/woff2', '.mp4': 'video/mp4', '.webm': 'video/webm' };
@@ -17,6 +18,14 @@ export function createHandler(directory, publicDirectory) {
     catch { missing(); return; }
     if (pathname === '/') pathname = '/index.html';
     if (pathname.includes('\\') || pathname.includes('\0') || pathname.split('/').some(part => part.startsWith('.'))) { missing(); return; }
+    const page = pages.find(page => page.path === pathname.replace(/\/$/, ''));
+    if (page && publicDirectory) {
+      const html = Buffer.from(renderPage(page));
+      response.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8', 'Content-Length': html.length, 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff' });
+      response.end(request.method === 'HEAD' ? undefined : html);
+      return;
+    }
+    if (page) pathname = page.path + '/index.html';
     let file, info;
     for (const root of roots) {
       const candidate = resolve(root, '.' + pathname);

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Building Pet-Care Stores"
+  short_description: "Build verified pet-care storefronts"
+  default_prompt: "Use $building-pet-care-store to plan or improve a pet-care storefront."

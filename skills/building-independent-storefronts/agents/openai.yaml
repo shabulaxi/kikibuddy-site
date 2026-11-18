@@ -1,0 +1,4 @@
+interface:
+  display_name: "Building Independent Stores"
+  short_description: "Build complete branded ecommerce sites"
+  default_prompt: "Use $building-independent-storefronts to build or improve my online store."

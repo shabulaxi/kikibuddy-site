@@ -2,7 +2,7 @@
 
 一个以视频和安静日常护理为主题的中英双语展示网站，使用原生 HTML、CSS 和 JavaScript。无需框架和运行时依赖。
 
-演示地址：[KikiBuddy](https://heroic-treacle-4cae1d.netlify.app/)。线上版本由站点维护者部署，可能与仓库进度不同。
+线上地址：[KikiBuddy 奇奇伙伴](https://kikibuddy.netlify.app/)。
 
 ## 本地打开
 

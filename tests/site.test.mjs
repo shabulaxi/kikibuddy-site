@@ -20,13 +20,14 @@ before(async () => {
 });
 after(async () => { await browser?.close(); server?.closeAllConnections(); await new Promise(resolve => server?.close(resolve)); });
 
-test('deployment opens the current KikiBuddy page with the requested brand title', async () => {
+test('deployment opens KikiBuddy with its requested title and product search description', async () => {
   const page = await browser.newPage({ locale: 'zh-CN', viewport: { width: 1440, height: 900 } });
   try {
     const errors = [];
     page.on('pageerror', e => errors.push(e.message));
     await page.goto(base);
-    assert.equal(await page.title(), 'KikiBuddy · 宠物护理');
+    assert.equal(await page.title(), 'KikiBuddy 奇奇伙伴 | 高端宠物护理');
+    assert.equal(await page.locator('meta[name="description"]').getAttribute('content'), 'KikiBuddy 宠物护理：爪鼻膏、洗耳液、除臭喷雾、洁牙喷雾、二合一洗护香波，给猫狗安静而认真的照顾。');
     assert.equal(await page.locator('video').count(), 25);
     assert.equal(await page.locator('#product-track .product-card').count(), 13);
     assert.deepEqual(errors, []);

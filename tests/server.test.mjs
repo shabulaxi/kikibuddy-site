@@ -44,7 +44,7 @@ test('build produces a standalone static site from tracked sources, excluding lo
   const result = spawnSync(process.execPath, [resolve(project, 'scripts/build.mjs')], { cwd: project, encoding: 'utf8' });
   assert.equal(result.status, 0, result.stderr);
   const html = await readFile(resolve(project, 'dist/index.html'), 'utf8');
-  assert.match(html, /<title>KikiBuddy · 宠物护理<\/title>/);
+  assert.match(html, /<title>KikiBuddy 奇奇伙伴 \| 高端宠物护理<\/title>/);
   for (const path of ['styles.css', 'main.js', 'robots.txt', '_headers', 'video/loops/hero-loop.webm']) {
     assert.ok((await readFile(resolve(project, 'dist', path))).length > 0, path);
   }
